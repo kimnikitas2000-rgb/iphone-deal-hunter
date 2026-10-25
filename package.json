@@ -1,0 +1,16 @@
+{
+  "name": "iphone-deal-hunter-telegram-mini-app",
+  "version": "1.3.0",
+  "description": "Telegram Mini App that scores real iPhone listings from public Avito search or an optional independent provider",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "check": "node --check src/server.js && node --check src/provider.js && node --check src/listing-url.js && node --check src/scoring.js && node --check src/store.js && node --check src/telegram.js && node --check public/app.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {}
+}

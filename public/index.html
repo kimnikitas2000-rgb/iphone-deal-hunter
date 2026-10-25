@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e13" />
+  <title>iPhone Radar — Avito deals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=4" />
+  <script src="https://telegram.org/js/telegram-web-app.js?62"></script>
+  <script defer src="/app.js?v=4"></script>
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand-mark"><span class="brand-glyph">⌁</span></div>
+      <div class="brand-copy"><div class="eyebrow">AVITO MARKET RADAR</div><h1>iPhone <span>Radar</span></h1></div>
+      <div class="status-chip" id="source-chip"><span class="status-dot"></span><span>ПОДКЛЮЧЕНИЕ</span></div>
+    </header>
+
+    <section class="hero-card">
+      <div class="hero-content">
+        <div class="hero-kicker"><span class="pulse-dot"></span> МОНИТОРИНГ ПРЕДЛОЖЕНИЙ</div>
+        <h2>Поймай цену<br/><em>ниже рынка.</em></h2>
+        <p>Сравниваем похожие iPhone и выделяем объявления, которые стоит проверить первыми.</p>
+        <div class="hero-actions"><button class="primary-btn" id="refresh-btn"><span>↻</span> Проверить рынок</button><span class="updated-label" id="updated-label">Загрузка данных…</span></div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><div class="orbit orbit-1"></div><div class="orbit orbit-2"></div><div class="phone-back"><div class="camera-stack"><i></i><i></i><i></i></div><div class="apple-mark">●</div></div><div class="spark spark-one">✦</div><div class="spark spark-two">✧</div><div class="price-tag">−20%<small>ниже рынка</small></div></div>
+    </section>
+
+    <section class="metrics-grid" aria-label="Сводка рынка">
+      <div class="metric-card"><span class="metric-label">Найдено лотов</span><div class="metric-row"><strong id="metric-total">—</strong><span class="metric-icon">▤</span></div><small>по твоим фильтрам</small></div>
+      <div class="metric-card"><span class="metric-label">Выгодные</span><div class="metric-row"><strong class="green-text" id="metric-deals">—</strong><span class="metric-icon green-icon">↘</span></div><small>ниже ориентира рынка</small></div>
+      <div class="metric-card"><span class="metric-label">Средняя скидка</span><div class="metric-row"><strong id="metric-discount">—</strong><span class="metric-icon purple-icon">◒</span></div><small>среди безопасных лотов</small></div>
+    </section>
+
+    <nav class="tabbar" aria-label="Разделы">
+      <button class="tab active" data-tab="deals"><span>◈</span> Сделки</button>
+      <button class="tab" data-tab="filters"><span>☷</span> Фильтры</button>
+      <button class="tab" data-tab="market"><span>⌁</span> Рынок</button>
+    </nav>
+
+    <section class="view active" id="view-deals">
+      <div class="section-heading"><div><div class="eyebrow">LIVE OPPORTUNITIES</div><h3>Лента предложений</h3></div><select id="sort-select" class="sort-select" aria-label="Сортировка"><option value="discount">Сначала выгодные</option><option value="price">Сначала дешевле</option><option value="recent">Сначала новые</option></select></div>
+      <div class="filter-summary" id="filter-summary"></div>
+      <div class="listings-list" id="listings-list"><div class="loading-card"><span class="loader"></span><p>Собираем предложения…</p></div></div>
+      <div class="empty-state hidden" id="empty-state"><div class="empty-icon">⌕</div><h4>Пока ничего не найдено</h4><p>Попробуй расширить бюджет или выбрать больше моделей в фильтрах.</p><button class="secondary-btn" data-go-tab="filters">Настроить фильтры</button></div>
+      <div class="bottom-note"><span class="note-icon">ⓘ</span><p><b>Важно:</b> скидка — это сигнал для проверки, а не гарантия выгодной покупки. Мы не подтверждаем исправность устройства.</p></div>
+    </section>
+
+    <section class="view" id="view-filters">
+      <div class="section-heading"><div><div class="eyebrow">PERSONAL SCANNER</div><h3>Настрой поиск</h3></div><button class="text-btn" id="reset-btn">Сбросить</button></div>
+      <form id="settings-form" class="settings-card">
+        <div class="field-block"><label for="city-input">Город / регион</label><input id="city-input" name="city" placeholder="Вся Россия" autocomplete="address-level2"/><small>Оставь «Вся Россия» для более широкой выборки.</small></div>
+        <div class="field-block"><div class="label-row"><label>Модели iPhone</label><span class="field-hint">выбери нужные</span></div><div class="choice-grid" id="model-choices"></div></div>
+        <div class="field-block"><div class="label-row"><label>Объём памяти</label><span class="field-hint">ГБ</span></div><div class="choice-row" id="storage-choices"></div></div>
+        <div class="field-block"><div class="label-row"><label for="max-price">Максимальная цена</label><span class="field-hint">₽</span></div><div class="number-input-wrap"><input id="max-price" type="number" min="0" max="500000" step="1000"/><span>₽</span></div><small>0 — без ограничения по цене.</small></div>
+        <div class="field-block"><div class="label-row"><label for="min-discount">Минимальная скидка от рынка</label><strong class="value-pill" id="discount-value">15%</strong></div><input id="min-discount" type="range" min="0" max="50" step="1"/><div class="range-ends"><span>Любая цена</span><span>−50%</span></div></div>
+        <div class="field-block"><div class="label-row"><label for="min-battery">Ориентир по аккумулятору</label><span class="field-hint">для предупреждений</span></div><select id="min-battery"><option value="75">75% и выше</option><option value="80">80% и выше</option><option value="85">85% и выше</option><option value="90">90% и выше</option><option value="95">95% и выше</option></select><small>Если здоровье АКБ указано в объявлении, приложение отметит низкое значение. Неуказанная батарея не исключает лот.</small></div>
+        <div class="settings-toggle"><div><b>Предпочитать частных продавцов</b><small>Помогает отсечь магазинные цены, если источник передаёт тип продавца.</small></div><label class="switch"><input id="private-only" type="checkbox"/><span></span></label></div>
+        <div class="settings-toggle"><div><b>Уведомления в Telegram</b><small>Присылать новые предложения, прошедшие скоринг.</small></div><label class="switch"><input id="notifications-enabled" type="checkbox"/><span></span></label></div>
+        <button class="primary-btn full-btn" type="submit">Сохранить настройки <span>→</span></button>
+        <div class="save-state" id="save-state" role="status"></div>
+      </form>
+    </section>
+
+    <section class="view" id="view-market">
+      <div class="section-heading"><div><div class="eyebrow">PRICE INTELLIGENCE</div><h3>Ориентиры рынка</h3></div><span class="market-date">25 OCT 2026</span></div>
+      <div class="market-intro"><span class="market-symbol">⌁</span><div><b>Бенчмарки б/у моделей</b><p>Для версий с небольшой выборкой используется расчётный ориентир. В живом режиме медиана обновляется по сопоставимым объявлениям, когда данных достаточно.</p></div></div>
+      <div class="market-table-wrap"><table class="market-table"><thead><tr><th>Модель</th><th>Ориентир</th><th>Другие объёмы</th></tr></thead><tbody id="market-table-body"></tbody></table></div>
+      <div class="section-subheading"><h4>Как мы считаем выгоду</h4></div>
+      <div class="method-grid"><div class="method-card"><span class="method-number">01</span><b>Сопоставляем</b><p>Модель, память и цену. Если выборка небольшая, используем только ориентир.</p></div><div class="method-card"><span class="method-number">02</span><b>Считаем разницу</b><p>Показываем процент ниже рыночной оценки, не смешивая разные объёмы памяти.</p></div><div class="method-card"><span class="method-number">03</span><b>Отмечаем риски</b><p>Слишком низкая цена, iCloud-блокировка, ремонт и слабая батарея снижают доверие.</p></div></div>
+      <div class="bottom-note"><span class="note-icon">ⓘ</span><p>Рыночные цифры — ориентиры, не оценка конкретного устройства. Для точного сравнения нужны свежие объявления из твоего города.</p></div>
+      <div class="source-links"><b>Источники предварительного обзора</b><a href="https://stok.io/apple/ru/iphone/13/2021/128gb" target="_blank" rel="noopener">iPhone 13 · Stok ↗</a><a href="https://stok.io/apple/ru/moscow/iphone/14/2022/128gb" target="_blank" rel="noopener">iPhone 14 · Москва ↗</a><a href="https://stok.io/apple/ru/iphone/15/2023?page=3" target="_blank" rel="noopener">iPhone 15 · Stok ↗</a><a href="https://stok.io/apple/ru/iphone/16/2024/128gb" target="_blank" rel="noopener">iPhone 16 · Stok ↗</a></div>
+    </section>
+
+    <footer class="footer"><span>iPhone Radar <span class="footer-dot">·</span> v1.3</span><span>Публичный поиск · без API Avito</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>
